@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Mini HTML Wiki</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #ffffff;
+      color: #000000;
+      transition: background 0.3s, color 0.3s;
+    }
+    body.dark {
+      background: #121212;
+      color: #e0e0e0;
+    }
+    header {
+      background: url('https://i.imgur.com/nFRkhga.png') center/cover no-repeat;
+      color: white;
+      padding: 1.5rem;
+      position: relative;
+    }
+    header::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+    }
+    header * { position: relative; z-index: 1; }
+    input[type="text"] { padding: 0.5rem; width: 250px; }
+    main { display: flex; }
+    nav {
+      width: 220px;
+      background: #ecf0f1;
+      padding: 1rem;
+      transition: background 0.3s;
+    }
+    body.dark nav {
+      background: #1e1e1e;
+    }
+    nav h3 { margin-top: 0; }
+    nav ul { list-style: none; padding: 0; }
+    nav li { cursor: pointer; padding: 0.25rem 0; }
+    nav li:hover { text-decoration: underline; }
+    section { flex: 1; padding: 1.5rem; }
+    .entry { display: none; }
+    .entry.active { display: block; }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Official World Diplomacy Project Wiki</h1>
+  <input type="text" id="search" placeholder="Search..." />
+  <button id="toggleTheme">Dark Mode</button>
+</header>
+
+<main>
+  <nav>
+    <h3>Pages</h3>
+    <ul id="pageList"></ul>
+  </nav>
+
+  <section>
+    <!-- START PAGE -->
+    <div id="home" class="entry active" data-title="Home" data-category="Home">
+      <h2>Welcome</h2>
+      <p>Thanks for coming here! You can help contribute and join the community on the WDP discord server! We hope to see you there.</p>
+    </div>
+
+    <!-- WIKI ENTRIES (easy to edit) -->
+    <div class="entry" data-title="The Council" data-category="WDP">
+      <h2>The Council (World)</h2>
+      <p>The council is an elected group that is akin to the real world United Nation Security Council. The council votes on important issues that effect the whole world, including the Moon, Mars, Centaura, and Murmansk.</p>
+      <h2>Elections</h2>
+      <p>The council is elected at the first day of every month, with members being able to serve an unlimited amount of terms.</p>
+      <h2>Impeachment</h2>
+      <p>A member of the council can be impeached if the rest of the council agrees to the impeachment.</p>
+    </div>
+
+    <div class="entry" data-title="List of Council Elections" data-category="WDP">
+      <h2>List of Council Elections</h2>
+      <br>
+      <h2>Election #1</h2>
+      <p>Votes:</p>
+      <p>LPR : 6 votes</p>
+      <p>Iberia : 5 votes</p>
+      <p>Euruska : 6 votes</p>
+      <p>Fekalia : 5 votes</p>
+      <p>New James : 3 votes</p>
+      <p>Enclave : 4 votes</p>
+      <p>Toad : 5 votes</p>
+      <p>Nova Operia : 2 votes</p>
+      <p>Inanna : 5 votes</p>
+    </div>
+
+    <div class="entry" data-title="Test_Region" data-category="WDP">
+      <h2>Test_Region</h2>
+      <p>JavaScript makes pages interactive.</p>
+    </div>
+  </section>
+</main>
+
+<script>
+  const entries = document.querySelectorAll('.entry');
+  const pageList = document.getElementById('pageList');
+  const search = document.getElementById('search');
+  const toggleTheme = document.getElementById('toggleTheme');
+
+  function showEntry(entry) {
+    entries.forEach(e => e.classList.remove('active'));
+    entry.classList.add('active');
+  }
+
+  // Build clickable article list from YOUR entries
+  entries.forEach(entry => {
+    const title = entry.dataset.title;
+    const li = document.createElement('li');
+    li.textContent = title;
+    li.onclick = () => showEntry(entry);
+    pageList.appendChild(li);
+  });
+
+  // Search pages + filter sidebar
+  search.addEventListener('input', () => {
+    const q = search.value.toLowerCase();
+
+    entries.forEach(entry => {
+      const title = entry.dataset.title.toLowerCase();
+      entry.classList.toggle('active', title.includes(q));
+    });
+
+    [...pageList.children].forEach(li => {
+      li.style.display = li.textContent.toLowerCase().includes(q)
+        ? 'block'
+        : 'none';
+    });
+  });
+
+  // Dark mode toggle (unchanged)
+  toggleTheme.onclick = () => {
+    document.body.classList.toggle('dark');
+    toggleTheme.textContent = document.body.classList.contains('dark')
+      ? 'Light Mode'
+      : 'Dark Mode';
+  };
+</script>
+
+</body>
+</html>
